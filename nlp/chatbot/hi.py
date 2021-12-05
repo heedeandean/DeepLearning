@@ -57,28 +57,28 @@ try:
                 INSERT tb_student(name, age, address) values('%s', %d, '%s')
             ''' % (s['name'], s['age'], s['address'])
             cursor.execute(sql)
-        db.commit()
+    db.commit()
 
-        cond_age = 30
-        with db.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql = '''
-                SELECT * FROM tb_student WHERE age > %d
-            ''' % cond_age
-            cursor.execute(sql)
-            results = cursor.fetchall()
-        print(results)
+    cond_age = 30
+    with db.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = '''
+            SELECT * FROM tb_student WHERE age > %d
+        ''' % cond_age
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    print(results)
 
-        cond_name = 'Grace'
-        with db.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql = '''
-                SELECT * FROM tb_student WHERE name = '%s'
-            ''' % cond_name
-            cursor.execute(sql)
-            result = cursor.fetchone()
-        print(result['name'], result['age'])
+    cond_name = 'Grace'
+    with db.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = '''
+            SELECT * FROM tb_student WHERE name = '%s'
+        ''' % cond_name
+        cursor.execute(sql)
+        result = cursor.fetchone()
+    print(result['name'], result['age'])
 
-        df = pd.DataFrame(results)
-        print(df)
+    df = pd.DataFrame(results)
+    print(df)
 
 except Exception as e:
     print(e)
