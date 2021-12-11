@@ -55,11 +55,3 @@ except Exception as e:
 finally:
     if db is not None:
         db.close()
-
-
-
-
-
-
-
-
