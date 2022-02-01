@@ -8,7 +8,7 @@ ner = NerModel(model_name='../models/ner/ner_model.h5', preprocess=p)
 # query = '오늘 오전 13시 2분에 탕수육 주문하고 싶어요'
 query = '오전에 탕수육 10개 주문합니다.'
 
-predicts =ner.predict(query)
+predicts = ner.predict(query)
 tags = ner.predict_tags(query)
 print(predicts)
 print(tags)
