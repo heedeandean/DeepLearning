@@ -1,21 +1,51 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
+import socket
+import json
+
+host = '127.0.0.1'
+port = 5050
+
 app = Flask(__name__)
 
-resource = []
+def get_answer_from_engine(bottype, query):
+    mySocket = socket.socket()
+    mySocket.connect((host, port))
 
-@app.route('/user/<int:user_id>', methods=['GET'])
-def get_user(user_id):
-    for user in resource:
-        if user['user_id'] is user_id:
-            return jsonify(user)
+    json_data = {
+        'Query': query,
+        'BotType': bottype
+    }
+    message = json.dumps(json_data)
+    mySocket.send(message.encode())
 
-    return jsonify(None)
+    data = mySocket.recv(2048).decode()
+    ret_data = json.loads(data)
 
-@app.route('/user', methods=['POST'])
-def add_user():
-    user = request.get_json()
-    resource.append(user)
-    return jsonify(resource)
+    mySocket.close()
+
+    return ret_data
+
+@app.route('/query/<bot_type>', methods=['POST'])
+def query(bot_type):
+    body = request.get_json()
+    print('body =', body)
+
+    try:
+        if bot_type == 'TEST':
+            ret = get_answer_from_engine(bottype=bot_type, query=body['query'])
+            return jsonify(ret)
+
+        elif bot_type == 'KAKAO':
+            pass
+
+        elif bot_type == 'NAVER':
+            pass
+
+        else:
+            abort(404)
+
+    except Exception as ex:
+        abort(500)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
