@@ -8,9 +8,9 @@ headers = {
 
 user_key = ''
 data = { # type(dict)
-    "event": "send",
-    "user": user_key,
-    "textContent": {"text": "hello world :D"}
+    'event': 'send',
+    'user': user_key,
+    'textContent': {'text': 'hello world :D'}
 }
 
 message = json.dumps(data) # type(str)
