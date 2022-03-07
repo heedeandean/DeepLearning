@@ -1,6 +1,6 @@
 import requests, json
 
-authorization_key = 'g7GhK/0pR9WsHd/hCUak' # 보내기 API 인증키
+authorization_key = '' # 보내기 API 인증키
 headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     'Authorization': authorization_key,
