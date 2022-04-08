@@ -25,6 +25,10 @@ def get_answer_from_engine(bottype, query):
 
     return ret_data
 
+@app.route('/', methods=['GET'])
+def index():
+    return 'hello', 200
+
 @app.route('/query/<bot_type>', methods=['POST'])
 def query(bot_type):
     body = request.get_json()
@@ -36,12 +40,13 @@ def query(bot_type):
             return jsonify(ret)
 
         elif bot_type == 'KAKAO':
-            pass
-            # print('KAKAO BODY :', body)
-            # utterance = body['userRequest']['utterance']
-            # ret = get_answer_from_engine(bottype=bot_type, query=utterance)
-            #
-            # from
+            body = request.get_json()
+            utterance = body['userRequest']['utterance']
+            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+
+            from KakaoTemplate import KakaoTemplate
+            skillTemplate = KakaoTemplate()
+            return jsonify(skillTemplate.send_response(ret))
 
         elif bot_type == 'NAVER':
             user_key = body['user']
